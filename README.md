@@ -5,7 +5,7 @@
 Adicionar funcionalidades extras ao projeto desenvolvido durante o [módulo 05](https://github.com/catherinekorres/gostack-modulo05/) do bootcamp.
 
 ## Objetivos
-Funcionalidades que devem ser criadas para a conclusão do desafio.
+Funcionalidades que devem ser adicionadas para a conclusão do desafio.
 
   - [x] `Captar erro de input`: Adicionar um `try/catch` na função `handleSubmit` dentro do componente `Main`. O intuito é que caso um repositório não seja encontrado na API do Github, uma borda vermelha apareça por volta do input do form.
 
