@@ -60,6 +60,16 @@ export const Owner = styled.header`
   }
 `;
 
+export const IssueFilter = styled.select`
+  width: 100px;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 4px;
+`;
+
 export const IssueList = styled.ul`
   padding-top: 30px;
   margin-top: 30px;

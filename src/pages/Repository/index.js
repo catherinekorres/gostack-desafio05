@@ -6,7 +6,7 @@ import { MdKeyboardBackspace } from 'react-icons/md';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList } from './styles';
+import { Loading, Owner, IssueFilter, IssueList } from './styles';
 
 // Returns black or white depending on given background-color so that text can be seen
 function getContrastColor(bgColor) {
@@ -30,11 +30,14 @@ export default class Repository extends Component {
   state = {
     repository: {},
     issues: [],
+    issueState: 'all',
     loading: true,
   };
 
   async componentDidMount() {
     const { match } = this.props;
+
+    const { issueState } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -43,7 +46,7 @@ export default class Repository extends Component {
       api.get(`/repos/${repoName}/issues`, {
         // get only 5 open issues
         params: {
-          state: 'open',
+          state: issueState,
           per_page: 5,
         },
       }),
@@ -54,12 +57,35 @@ export default class Repository extends Component {
       issues: issues.data,
       loading: false,
     });
-
-    console.log(this.state.issues);
   }
 
+  async componentDidUpdate(_, prevState) {
+    const { issueState } = this.state;
+
+    if (prevState.issueState !== issueState) {
+      const { match } = this.props;
+
+      const repoName = decodeURIComponent(match.params.repository);
+
+      const issues = await api.get(`/repos/${repoName}/issues`, {
+        params: {
+          state: issueState,
+          per_page: 5,
+        },
+      });
+
+      this.setState({
+        issues: issues.data,
+      });
+    }
+  }
+
+  handleFilterChange = e => {
+    this.setState({ issueState: e.target.value });
+  };
+
   render() {
-    const { repository, issues, loading } = this.state;
+    const { repository, issues, issueState, loading } = this.state;
 
     if (loading) {
       return (
@@ -82,6 +108,12 @@ export default class Repository extends Component {
         </Owner>
 
         <IssueList>
+          <IssueFilter onChange={this.handleFilterChange} value={issueState}>
+            <option value="all">All</option>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+          </IssueFilter>
+
           {issues.map(issue => (
             <li key={String(issue.id)}>
               <img src={issue.user.avatar_url} alt={issue.user.login} />
