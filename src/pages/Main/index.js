@@ -40,11 +40,15 @@ export default class Main extends Component {
   handleSubmit = async e => {
     e.preventDefault();
 
-    this.setState({ loading: true });
-
-    const { newRepo, repositories } = this.state;
+    this.setState({ loading: true, inputError: false });
 
     try {
+      const { newRepo, repositories } = this.state;
+
+      const repoExists = repositories.find(repo => repo.name === newRepo);
+
+      if (repoExists) throw 'Error: Repository already exists';
+
       const response = await api.get(`/repos/${newRepo}`);
 
       const data = {
@@ -55,7 +59,6 @@ export default class Main extends Component {
         repositories: [...repositories, data],
         newRepo: '',
         loading: false,
-        inputError: false,
       });
     } catch (error) {
       this.setState({
@@ -63,7 +66,7 @@ export default class Main extends Component {
         inputError: true,
       });
 
-      console.log(error);
+      alert(error);
     }
   };
 

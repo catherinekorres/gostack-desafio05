@@ -9,7 +9,7 @@ Funcionalidades que devem ser criadas para a conclusão do desafio.
 
   - [x] `Captar erro de input`: Adicionar um `try/catch` na função `handleSubmit` dentro do componente `Main`. O intuito é que caso um repositório não seja encontrado na API do Github, uma borda vermelha apareça por volta do input do form.
 
-  - [ ] `Repositório duplicado`: Antes de fazer a chamada à API do Github na função `handleSubmit` dentro do componente `Main`, verificar se o repositório já existe no estado de `repositories`. Caso exista, deve ocorrer um erro direcionado ao `catch` do `try/catch` criado na funcionalidade anterior.
+  - [x] `Repositório duplicado`: Antes de fazer a chamada à API do Github na função `handleSubmit` dentro do componente `Main`, verificar se o repositório já existe no estado de `repositories`. Caso exista, deve ocorrer um erro direcionado ao `catch` do `try/catch` criado na funcionalidade anterior.
 
   - [ ] `Filtro de estado de Issues`:  Adicione um filtro de estado na listagem de Issues de um repositório. O estado representa se a issue está em aberto, fechada ou uma opção para exibir todas.
 
