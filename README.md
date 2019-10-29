@@ -1,3 +1,5 @@
+![](https://github.com/catherinekorres/gostack-desafio05/blob/master/public/sneakpeek.gif)
+
 #  🚀 Bootcamp GoStack - Desafio 05
 [Desafio 05](https://github.com/Rocketseat/bootcamp-gostack-desafio-05/blob/master/README.md) do Bootcamp GoStack 2019 da Rocketseat
 
