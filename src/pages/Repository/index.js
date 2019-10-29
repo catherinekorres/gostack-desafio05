@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { FaSpinner } from 'react-icons/fa';
-import { MdKeyboardBackspace } from 'react-icons/md';
+import {
+  FaSpinner,
+  FaArrowLeft,
+  FaAngleLeft,
+  FaAngleRight,
+} from 'react-icons/fa';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueFilter, IssueList } from './styles';
+import { Loading, Owner, IssueFilter, IssueList, Pagination } from './styles';
 
 // Returns black or white depending on given background-color so that text can be seen
 function getContrastColor(bgColor) {
@@ -31,13 +35,14 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     issueState: 'all',
+    page: 1,
     loading: true,
   };
 
   async componentDidMount() {
     const { match } = this.props;
 
-    const { issueState } = this.state;
+    const { issueState, page } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -48,6 +53,7 @@ export default class Repository extends Component {
         params: {
           state: issueState,
           per_page: 5,
+          page,
         },
       }),
     ]);
@@ -60,17 +66,33 @@ export default class Repository extends Component {
   }
 
   async componentDidUpdate(_, prevState) {
-    const { issueState } = this.state;
+    const { issueState, page } = this.state;
+
+    const { match } = this.props;
+
+    const repoName = decodeURIComponent(match.params.repository);
 
     if (prevState.issueState !== issueState) {
-      const { match } = this.props;
-
-      const repoName = decodeURIComponent(match.params.repository);
-
       const issues = await api.get(`/repos/${repoName}/issues`, {
         params: {
           state: issueState,
           per_page: 5,
+          page: 1,
+        },
+      });
+
+      this.setState({
+        issues: issues.data,
+        page: 1,
+      });
+    }
+
+    if (prevState.page !== page) {
+      const issues = await api.get(`/repos/${repoName}/issues`, {
+        params: {
+          state: issueState,
+          per_page: 5,
+          page,
         },
       });
 
@@ -85,7 +107,7 @@ export default class Repository extends Component {
   };
 
   render() {
-    const { repository, issues, issueState, loading } = this.state;
+    const { repository, issues, issueState, loading, page } = this.state;
 
     if (loading) {
       return (
@@ -99,8 +121,7 @@ export default class Repository extends Component {
       <Container>
         <Owner>
           <Link to="/">
-            <MdKeyboardBackspace color="#7159c1" size={17} /> Voltar aos
-            repositórios
+            <FaArrowLeft color="#7159c1" size={12} /> Voltar aos repositórios
           </Link>
           <img src={repository.owner.avatar_url} alt={repository.owner.login} />
           <h1>{repository.name}</h1>
@@ -138,6 +159,22 @@ export default class Repository extends Component {
               </div>
             </li>
           ))}
+
+          <Pagination>
+            <button
+              onClick={() => this.setState({ page: page - 1 })}
+              disabled={page === 1}
+            >
+              <FaAngleLeft color={page === 1 ? '#666' : '#7159c1'} size={14} />{' '}
+              Página anterior
+            </button>
+
+            <span>{this.state.page}</span>
+
+            <button onClick={() => this.setState({ page: page + 1 })}>
+              Próxima página <FaAngleRight color="#7159c1" size={14} />
+            </button>
+          </Pagination>
         </IssueList>
       </Container>
     );

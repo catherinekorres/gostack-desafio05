@@ -14,4 +14,4 @@ Funcionalidades que devem ser criadas para a conclusão do desafio.
   - [x] `Filtro de estado de Issues`:  Adicione um filtro de estado na listagem de Issues de um repositório. O estado representa se a issue está em aberto, fechada ou uma opção para exibir todas.
 
 
-  - [ ] `Paginação de Issues`:  Adicione paginação nas issues listadas em um repositório. A API do Github lista no máximo 30 issues por página e o controle do número da página atual deve ser feito por um parâmetro no endereço da requisição. Adicionar também um botão de próxima página e página anterior. O botão de página anterior deve ficar desativado na primeira página.
+  - [x] `Paginação de Issues`:  Adicione paginação nas issues listadas em um repositório. A API do Github lista no máximo 30 issues por página e o controle do número da página atual deve ser feito por um parâmetro no endereço da requisição. Adicionar apenas um botão de próxima página e um página anterior. O botão de página anterior deve ficar desativado na primeira página.
